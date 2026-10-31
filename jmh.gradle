@@ -90,4 +90,17 @@ configure(jmhProjects) {
   }
 
   tasks.jmh.finalizedBy tasks.jmhReport
+
+  // S3FileIO, the AWS SDK, and Testcontainers for ParquetFooterReadBenchmark (local-s3 and s3)
+  if (project.name == 'iceberg-data') {
+    dependencies {
+      jmhImplementation project(':iceberg-aws')
+      jmhImplementation(platform(libs.awssdk.bom))
+      jmhImplementation("software.amazon.awssdk:s3")
+      jmhImplementation("software.amazon.awssdk:apache5-client")
+      jmhImplementation("software.amazon.awssdk:sts")
+      jmhImplementation("software.amazon.awssdk:kms")
+      jmhImplementation(libs.testcontainers)
+    }
+  }
 }
